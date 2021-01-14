@@ -5,7 +5,10 @@ export const useNews = (url) => {
   const [news, setNews] = useState([]);
   const [image, setImage] = useState(null);
 
-  const fetchData = (url) =>
+  const [refreshing, setRefreshing] = useState(false);
+
+  const fetchData = (url) => {
+    setRefreshing(true);
     fetch(url)
       .then((response) => response.text())
       .then((responseData) => rssParser.parse(responseData))
@@ -14,7 +17,11 @@ export const useNews = (url) => {
         const image = rss?.image?.url;
         setNews((news) => [...news, ...newsItems]);
         setImage(image);
+        setRefreshing(false);
       });
+  };
+
+  const onRefresh = () => fetchData(url);
 
   useEffect(() => {
     fetchData(url);
@@ -22,5 +29,5 @@ export const useNews = (url) => {
     return () => setNews([]);
   }, []);
 
-  return { news, image };
+  return { news, image, onRefresh, refreshing };
 };
