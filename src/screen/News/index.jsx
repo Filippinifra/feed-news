@@ -1,9 +1,9 @@
 import React from "react";
 import { NewsRow } from "components/NewsRow";
-import { FlatList } from "react-native";
+import { FlatList, RefreshControl, View, Text } from "react-native";
 import _ from "lodash";
 import { LoadAndError } from "components/LoadAndError";
-import { NewsWrapper } from "./styles";
+import { NewsWrapper, FirstTitleText, TitleName } from "./styles";
 import { useNews } from "hook/useNews";
 import { RAINBOW_COLORS } from "constants/palette";
 import { getImageFeedItem } from "utils/getImageFeedItem";
@@ -26,8 +26,8 @@ const MemoizedNewsRow = ({ title, description, color, image, url }) => {
   );
 };
 
-export const News = ({ mainColor, url }) => {
-  const { news, image } = useNews(url);
+export const News = ({ mainColor, url, nameFeed }) => {
+  const { news, image, onRefresh, refreshing } = useNews(url);
 
   return (
     <LoadAndError data={news.length} color={mainColor}>
@@ -53,6 +53,19 @@ export const News = ({ mainColor, url }) => {
         }}
         contentContainerStyle={{ paddingTop: 20, paddingBottom: 20 }}
         keyExtractor={(item, index) => `news-element-${index}`}
+        refreshControl={
+          <View style={{ top: 20 }}>
+            <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
+          </View>
+        }
+        ListHeaderComponent={
+          <View style={{ flexDirection: "row", padding: 20 }}>
+            <Text>
+              <FirstTitleText numberOfLines={1}>{"This is  "}</FirstTitleText>
+              <TitleName numberOfLines={1}>{nameFeed} </TitleName>
+            </Text>
+          </View>
+        }
       />
     </LoadAndError>
   );
