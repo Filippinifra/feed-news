@@ -1,24 +1,25 @@
 import { useState, useEffect } from "react";
-import * as rssParser from "react-native-rss-parser";
+import { fetchUrl } from "utils/feed";
 
 export const useNews = (url) => {
   const [news, setNews] = useState([]);
   const [image, setImage] = useState(null);
-
+  const [isError, setIsError] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
   const fetchData = (url) => {
     setRefreshing(true);
-    fetch(url)
-      .then((response) => response.text())
-      .then((responseData) => rssParser.parse(responseData))
-      .then((rss) => {
+    fetchUrl(
+      url,
+      (rss) => {
         const newsItems = rss?.items;
         const image = rss?.image?.url;
         setNews((news) => [...news, ...newsItems]);
         setImage(image);
         setRefreshing(false);
-      });
+      },
+      () => setIsError(true)
+    );
   };
 
   const onRefresh = () => fetchData(url);
@@ -29,5 +30,5 @@ export const useNews = (url) => {
     return () => setNews([]);
   }, []);
 
-  return { news, image, onRefresh, refreshing };
+  return { news, image, onRefresh, refreshing, error: isError };
 };
