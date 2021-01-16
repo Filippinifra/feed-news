@@ -13,6 +13,7 @@ export const ModalCustom = ({
   onCancel,
   confirmDisabled,
   isLoading,
+  cancelDisabled,
 }) => (
   <Modal animationType="slide" transparent={true} visible={isVisible}>
     <WrapperModal>
@@ -42,7 +43,7 @@ export const ModalCustom = ({
               }
             }}
           >
-            <Button style={ShadowStyle.ShadowBox}>
+            <Button style={ShadowStyle.ShadowBox} disabled={cancelDisabled}>
               <ButtonText>Cancel</ButtonText>
             </Button>
           </TouchElement>

@@ -23,3 +23,17 @@ export const ButtonSaved = styled(TouchElement)`
   top: 0;
   right: 0;
 `;
+
+export const TextItemContainer = styled.View`
+  background-color: ${FIRST_COLOR};
+  opacity: 0.4;
+  margin: 5px 10px;
+  padding: 10px;
+  border-radius: 4px;
+`;
+
+export const ItemContainer = styled.View`
+  flex-direction: row;
+  flex: 1;
+  align-items: center;
+`;

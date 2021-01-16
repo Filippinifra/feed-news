@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { InsertFeedPanel } from "components/InsertFeedPanel";
-import { Alert } from "react-native";
-import {
-  COMMON_FIRST_COLOR,
-  FIRST_COLOR,
-  THIRD_COLOR,
-} from "constants/palette";
-import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
+import { Alert, Text } from "react-native";
+import { COMMON_FIRST_COLOR, THIRD_COLOR } from "constants/palette";
+import { DrawerContentScrollView } from "@react-navigation/drawer";
 import { Icon } from "react-native-elements";
 import { ModalCustom } from "components/ModalCustom";
-import { Title, ButtonSaved, ButtonAddNew } from "./styles";
+import {
+  Title,
+  ButtonSaved,
+  ButtonAddNew,
+  TextItemContainer,
+  ItemContainer,
+} from "./styles";
+import { TouchElement } from "components/TouchElement";
 
 export const AddNewFeedButton = ({ setModalVisible }) => (
   <ButtonAddNew onPress={() => setModalVisible(true)}>
@@ -28,6 +31,7 @@ export const CustomDrawerContent = (props) => {
     addNewFeed,
     isModalVisible,
     setModalVisible,
+    removeFeed,
   } = props;
 
   const initializeFields = () => {
@@ -58,14 +62,20 @@ export const CustomDrawerContent = (props) => {
     <DrawerContentScrollView {...props}>
       <Title>My feed list</Title>
       {feedList.map(({ name }, index) => (
-        <DrawerItem
-          {...props}
-          label={name}
-          onPress={() => navigation.navigate(name)}
-          style={{ backgroundColor: FIRST_COLOR, opacity: 0.4 }}
-          labelStyle={{ color: COMMON_FIRST_COLOR }}
-          key={`drawer-item-${index}`}
-        />
+        <ItemContainer>
+          <TouchElement
+            key={`drawer-item-${index}`}
+            onPress={() => navigation.navigate(name)}
+            style={{ flexGrow: 1 }}
+          >
+            <TextItemContainer>
+              <Text style={{ color: COMMON_FIRST_COLOR }}>{name}</Text>
+            </TextItemContainer>
+          </TouchElement>
+          <TouchElement onPress={() => removeFeed(name)}>
+            <Icon name="delete" style={{ marginRight: 10 }} />
+          </TouchElement>
+        </ItemContainer>
       ))}
       <AddNewFeedButton setModalVisible={setModalVisible} />
       <Title>My saved news</Title>
@@ -79,6 +89,7 @@ export const CustomDrawerContent = (props) => {
         onCancel={initializeFields}
         confirmDisabled={!textNameFeed || !urlFeed || isLoading}
         isLoading={isLoading}
+        cancelDisabled={isLoading}
       >
         <InsertFeedPanel
           textNameFeed={textNameFeed}

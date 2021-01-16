@@ -7,6 +7,24 @@ import {
 } from "utils/storage";
 
 //setStorageItem(FEED_LIST_STORAGE_KEY, [], () => {});
+// setStorageItem(FEED_LIST_STORAGE_KEY, [
+//   {
+//     name: "Tech lab",
+//     url: "http://feeds.arstechnica.com/arstechnica/technology-lab",
+//   },
+//   {
+//     name: "Abc",
+//     url: "http://feeds.arstechnica.com/arstechnica/technology-lab",
+//   },
+//   {
+//     name: "Gfd",
+//     url: "https://feeds.feedburner.com/TechCrunch/",
+//   },
+//   {
+//     name: "Mit",
+//     url: "https://www.technologyreview.com/topnews.rss",
+//   },
+// ]);
 
 export const useFeedList = () => {
   const [feedList, setFeedList] = useState([]);
@@ -38,7 +56,7 @@ export const useFeedList = () => {
             { name: textNameFeed, url: urlFeed },
           ];
           setStorageItem(FEED_LIST_STORAGE_KEY, newItemList);
-          setFeedList(newItemList);
+          updateFeedList();
           callbackSuccess();
         } else {
           callbackError();
@@ -59,8 +77,10 @@ export const useFeedList = () => {
           const indexFeedToRemove = value.findIndex(
             ({ name }) => name === feedToRemove
           );
-          const newFeedList = value.split(indexFeedToRemove, 1);
-          setFeedList(newFeedList);
+          const newFeedList = value.filter(
+            (el, index) => indexFeedToRemove !== index
+          );
+          setStorageItem(FEED_LIST_STORAGE_KEY, newFeedList);
           updateFeedList();
         }
       },
