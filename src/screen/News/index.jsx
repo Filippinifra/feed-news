@@ -6,7 +6,7 @@ import { LoadAndError } from "components/LoadAndError";
 import { NewsWrapper, FirstTitleText, TitleName } from "./styles";
 import { useNews } from "hook/useNews";
 import { RAINBOW_COLORS } from "constants/palette";
-import { getImageFeedItem } from "utils/getImageFeedItem";
+import { getImageFeedItem } from "utils/feed";
 import { useMemoTextEncoded } from "hook/useMemoTextEncoded";
 
 const MemoizedNewsRow = ({ title, description, color, image, url }) => {
@@ -27,10 +27,10 @@ const MemoizedNewsRow = ({ title, description, color, image, url }) => {
 };
 
 export const News = ({ mainColor, url, nameFeed }) => {
-  const { news, image, onRefresh, refreshing } = useNews(url);
+  const { news, image, onRefresh, refreshing, error } = useNews(url);
 
   return (
-    <LoadAndError data={news.length} color={mainColor}>
+    <LoadAndError data={news.length} color={mainColor} error={error}>
       <FlatList
         data={news}
         renderItem={({
