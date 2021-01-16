@@ -7,11 +7,16 @@ export const InsertFeedPanel = ({
   setTextNameFeed,
   urlFeed,
   setUrlFeed,
+  isModifying,
 }) => (
   <PanelWrapper>
-    <Title style={{ alignSelf: "center", marginBottom: 5 }}>ADD FEED</Title>
+    <Title style={{ alignSelf: "center", marginBottom: 5 }}>
+      {isModifying ? "MODIFY FEED" : "ADD FEED"}
+    </Title>
     <SubTitle style={{ marginBottom: 10 }}>
-      Insert name and url of the feed to add
+      {isModifying
+        ? "Modify name and url of the feed"
+        : "Insert name and url of the feed to add"}
     </SubTitle>
     <Label style={{ marginBottom: 2 }}>Name of feed</Label>
     <TextArea

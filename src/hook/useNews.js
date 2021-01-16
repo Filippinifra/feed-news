@@ -14,7 +14,7 @@ export const useNews = (url) => {
       (rss) => {
         const newsItems = rss?.items;
         const image = rss?.image?.url;
-        setNews((news) => [...news, ...newsItems]);
+        setNews(newsItems);
         setImage(image);
         setRefreshing(false);
       },
@@ -29,6 +29,12 @@ export const useNews = (url) => {
 
     return () => setNews([]);
   }, []);
+
+  useEffect(() => {
+    onRefresh();
+
+    return () => setNews([]);
+  }, [url]);
 
   return { news, image, onRefresh, refreshing, error: isError };
 };

@@ -87,5 +87,47 @@ export const useFeedList = () => {
       () => {}
     );
 
-  return { feedList, updateFeedList, addNewFeed, removeFeed };
+  const modifyFeed = (
+    indexFeed,
+    textNameFeed,
+    urlFeed,
+    callbackError,
+    callbackSuccess
+  ) => {
+    getStorageItem(
+      FEED_LIST_STORAGE_KEY,
+      (value) => {
+        const isFeedYetInList = feedList.some(
+          ({ name, url }, index) =>
+            index !== indexFeed && (name === textNameFeed || url === urlFeed)
+        );
+
+        if (isFeedYetInList) {
+          callbackError();
+        } else {
+          fetchUrl(
+            urlFeed,
+            () => {
+              const newFeedList = value.map((el, index) => {
+                if (indexFeed === index) {
+                  return { name: textNameFeed, url: urlFeed };
+                }
+
+                return el;
+              });
+              setStorageItem(FEED_LIST_STORAGE_KEY, newFeedList);
+              updateFeedList();
+              callbackSuccess();
+            },
+            callbackError
+          );
+        }
+      },
+      () => {
+        callbackError();
+      }
+    );
+  };
+
+  return { feedList, updateFeedList, addNewFeed, removeFeed, modifyFeed };
 };

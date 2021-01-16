@@ -12,17 +12,17 @@ export const setStorageItem = async (item, value) => {
 
 export const getStorageItem = async (
   item,
-  callbackWithValue,
-  callbackNoValue
+  callbackForExistingValue,
+  callbackForNullValue
 ) => {
   try {
     const value = await AsyncStorage.getItem(item);
     if (value !== null) {
-      callbackWithValue(JSON.parse(value));
+      callbackForExistingValue(JSON.parse(value));
     } else {
-      callbackNoValue();
+      callbackForNullValue();
     }
   } catch (error) {
-    callbackNoValue();
+    callbackForNullValue();
   }
 };

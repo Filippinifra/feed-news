@@ -14,7 +14,7 @@ import {
 const Drawer = createDrawerNavigator();
 
 export const Router = () => {
-  const { feedList, addNewFeed, removeFeed } = useFeedList();
+  const { feedList, addNewFeed, removeFeed, modifyFeed } = useFeedList();
 
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -29,6 +29,7 @@ export const Router = () => {
             isModalVisible={isModalVisible}
             setModalVisible={setModalVisible}
             removeFeed={removeFeed}
+            modifyFeed={modifyFeed}
           />
         )}
       >
