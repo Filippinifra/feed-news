@@ -1,4 +1,13 @@
 import { parse } from "himalaya";
+import * as rssParser from "react-native-rss-parser";
+
+export const fetchUrl = (url, callbackLeft, callbackRight) => {
+  fetch(url)
+    .then((response) => response.text())
+    .then((responseData) => rssParser.parse(responseData))
+    .then(callbackLeft)
+    .catch(callbackRight);
+};
 
 const getImageFromContent = (content) => {
   if (content) {
