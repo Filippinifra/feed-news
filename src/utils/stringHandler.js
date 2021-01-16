@@ -10,4 +10,5 @@ export const getStringFromHtmlString = (text) =>
     )
     .join("")
     .replace(/<[^>]*>/g, "")
+    .replace(/\s+/g, " ")
     .trim();
