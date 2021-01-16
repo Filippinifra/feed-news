@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-community/async-storage";
 
-export const STORAGE_LANG_KEY = "lang";
+export const FEED_LIST_STORAGE_KEY = "feed-list";
 
 export const setStorageItem = async (item, value) => {
   try {
