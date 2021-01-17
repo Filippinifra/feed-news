@@ -10,6 +10,8 @@ import {
   CustomDrawerContent,
   AddNewFeedButton,
 } from "components/CustomDrawerContent";
+import { useSavedFeedList } from "hook/useSavedFeedList";
+import { SavedNews } from "components/SavedNews";
 
 const Drawer = createDrawerNavigator();
 
@@ -24,6 +26,8 @@ export const Router = () => {
 
   const [isModalVisible, setModalVisible] = useState(false);
 
+  const { savedFeedList, addSavedFeed, removeSavedFeed } = useSavedFeedList();
+
   return (
     <NavigationContainer>
       <Drawer.Navigator
@@ -37,19 +41,39 @@ export const Router = () => {
             removeFeed={removeFeed}
             modifyFeed={modifyFeed}
             setFeedList={setFeedList}
+            savedFeedList={savedFeedList}
           />
         )}
       >
         {feedList.length ? (
-          feedList.map(({ name, url }, index) => (
-            <Drawer.Screen name={name} key={`drawer-${index}`}>
+          <>
+            {feedList.map(({ name, url }, index) => (
+              <Drawer.Screen name={name} key={`drawer-${index}`}>
+                {() => (
+                  <MainLayout colorHeader={FIRST_COLOR}>
+                    <News
+                      mainColor={FIRST_COLOR}
+                      url={url}
+                      nameFeed={name}
+                      savedFeedList={savedFeedList}
+                      addSavedFeed={addSavedFeed}
+                      removeSavedFeed={removeSavedFeed}
+                    />
+                  </MainLayout>
+                )}
+              </Drawer.Screen>
+            ))}
+            <Drawer.Screen name={"saved-news"} key={`drawer-saved-news`}>
               {() => (
                 <MainLayout colorHeader={FIRST_COLOR}>
-                  <News mainColor={FIRST_COLOR} url={url} nameFeed={name} />
+                  <SavedNews
+                    savedFeedList={savedFeedList}
+                    removeSavedFeed={removeSavedFeed}
+                  />
                 </MainLayout>
               )}
             </Drawer.Screen>
-          ))
+          </>
         ) : (
           <Drawer.Screen name={"No data"} key={`drawer`}>
             {() => (

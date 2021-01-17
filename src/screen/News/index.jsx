@@ -9,9 +9,31 @@ import { RAINBOW_COLORS } from "constants/palette";
 import { getImageFeedItem } from "utils/feed";
 import { useMemoTextEncoded } from "hook/useMemoTextEncoded";
 
-const MemoizedNewsRow = ({ title, description, color, image, url }) => {
+const MemoizedNewsRow = ({
+  title,
+  description,
+  color,
+  image,
+  url,
+  onSavedFeed,
+  savedFeedList,
+  onRemoveFeed,
+}) => {
   const { text: titleConverted } = useMemoTextEncoded(title);
   const { text: desctiptionConverted } = useMemoTextEncoded(description);
+
+  const isSaved = savedFeedList.some(
+    ({
+      title: titleFeedSaved,
+      description: descriptionFeedSaved,
+      image: imageFeedSaved,
+      url: urlFeedSaved,
+    }) =>
+      titleFeedSaved === title &&
+      descriptionFeedSaved === description &&
+      imageFeedSaved === image &&
+      urlFeedSaved === url
+  );
 
   return (
     <NewsWrapper>
@@ -21,12 +43,39 @@ const MemoizedNewsRow = ({ title, description, color, image, url }) => {
         description={desctiptionConverted}
         image={image}
         url={url}
+        onSavedFeed={() => {
+          onSavedFeed(
+            {
+              title: titleConverted,
+              description: desctiptionConverted,
+              image,
+              url,
+            },
+            () => {}
+          );
+        }}
+        onRemoveFeed={() =>
+          onRemoveFeed({
+            title: titleConverted,
+            description: desctiptionConverted,
+            image,
+            url,
+          })
+        }
+        isSaved={isSaved}
       />
     </NewsWrapper>
   );
 };
 
-export const News = ({ mainColor, url, nameFeed }) => {
+export const News = ({
+  mainColor,
+  url,
+  nameFeed,
+  savedFeedList,
+  addSavedFeed,
+  removeSavedFeed,
+}) => {
   const { news, image, onRefresh, refreshing, error } = useNews(url);
 
   return (
@@ -48,6 +97,9 @@ export const News = ({ mainColor, url, nameFeed }) => {
               description={description}
               image={imageUrl}
               url={links[0].url}
+              onSavedFeed={addSavedFeed}
+              savedFeedList={savedFeedList}
+              onRemoveFeed={removeSavedFeed}
             />
           );
         }}

@@ -1,5 +1,5 @@
 import { TouchElement } from "components/TouchElement";
-import { FIRST_COLOR, SECOND_COLOR } from "constants/palette";
+import { FIRST_COLOR, FOURTH_COLOR, SECOND_COLOR } from "constants/palette";
 import styled from "styled-components";
 
 export const Title = styled.Text`
@@ -35,4 +35,11 @@ export const TextItemContainer = styled.View`
 export const ItemContainer = styled.View`
   flex-direction: row;
   align-items: center;
+`;
+
+export const SavedFeedContainer = styled.View`
+  border: 3px solid ${FOURTH_COLOR};
+  margin: 3px 10px;
+  padding: 2px 5px;
+  border-radius: 4px;
 `;

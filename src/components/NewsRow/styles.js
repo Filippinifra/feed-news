@@ -13,7 +13,7 @@ export const InfoWrapper = styled.View`
 `;
 
 export const ViewMoreButtonWrapper = styled.View`
-  padding: 10px 0px;
+  padding: 2px 0px;
   color: ${({ color }) => color};
   border-radius: 20px;
   align-items: center;

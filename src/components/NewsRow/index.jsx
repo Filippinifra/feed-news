@@ -5,7 +5,16 @@ import { TouchElement } from "components/TouchElement";
 import { NewsImage, InfoWrapper, ViewMoreButtonWrapper } from "./styles";
 import { Icon } from "react-native-elements";
 
-export const NewsRow = ({ title, description, image, url, color }) => {
+export const NewsRow = ({
+  title,
+  description,
+  image,
+  url,
+  color,
+  onSavedFeed,
+  onRemoveFeed,
+  isSaved,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const numberOfLinesText = isOpen ? 10 : 3;
@@ -55,11 +64,14 @@ export const NewsRow = ({ title, description, image, url, color }) => {
                 </TouchElement>
               </View>
               <View style={{ alignSelf: "center" }}>
-                <TouchElement onPress={() => Linking.openURL(url)}>
+                <TouchElement onPress={isSaved ? onRemoveFeed : onSavedFeed}>
                   <ViewMoreButtonWrapper color={color}>
-                    <Icon name="bookmark" color={color} />
+                    <Icon
+                      name={isSaved ? "bookmark" : "bookmark-border"}
+                      color={color}
+                    />
                     <Text style={{ fontSize: 14, color: color }}>
-                      {"Save this"}
+                      {isSaved ? "Unsave this" : "Save this"}
                     </Text>
                   </ViewMoreButtonWrapper>
                 </TouchElement>

@@ -9,12 +9,14 @@ import {
   ButtonAddNew,
   TextItemContainer,
   ItemContainer,
+  SavedFeedContainer,
 } from "./styles";
 import { TouchElement } from "components/TouchElement";
 import { NewOrEditFeedModal } from "components/NewOrEditFeedModal";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import Animated from "react-native-reanimated";
 import { RaccomendedFeeds } from "components/RaccomendedFeeds";
+import { useSavedFeedList } from "hook/useSavedFeedList";
 
 const {
   block,
@@ -27,7 +29,6 @@ const {
   clockRunning,
   cond,
   spring,
-  call,
 } = Animated;
 
 export const AddNewFeedButton = ({ setModalVisible }) => (
@@ -52,6 +53,7 @@ export const CustomDrawerContent = (props) => {
     removeFeed,
     modifyFeed,
     setFeedList,
+    savedFeedList,
   } = props;
 
   const initializeFields = () => {
@@ -204,7 +206,12 @@ export const CustomDrawerContent = (props) => {
       </Animated.Code>
       <AddNewFeedButton setModalVisible={setModalVisible} />
       <Title>My saved news</Title>
-      <ButtonSaved>
+      {savedFeedList.slice(0, 3).map(({ title }) => (
+        <SavedFeedContainer>
+          <Text numberOfLines={1}>{title}</Text>
+        </SavedFeedContainer>
+      ))}
+      <ButtonSaved onPress={() => navigation.navigate("saved-news")}>
         <Icon name="bookmark" color={THIRD_COLOR}></Icon>
       </ButtonSaved>
       <Title>Raccomended Feed</Title>
