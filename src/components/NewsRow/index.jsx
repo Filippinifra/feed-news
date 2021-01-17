@@ -26,13 +26,15 @@ export const NewsRow = ({ title, description, image, url, color }) => {
                 {description}
               </Text>
             </InfoWrapper>
-            <View
-              style={{
-                marginLeft: 20,
-              }}
-            >
-              <NewsImage source={{ url: image }} />
-            </View>
+            {image && (
+              <View
+                style={{
+                  marginLeft: 20,
+                }}
+              >
+                <NewsImage source={{ url: image }} />
+              </View>
+            )}
           </View>
           {isOpen && (
             <View
