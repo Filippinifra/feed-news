@@ -6,7 +6,7 @@ import {
   setStorageItem,
 } from "utils/storage";
 
-//setStorageItem(FEED_LIST_STORAGE_KEY, [], () => {});
+// setStorageItem(FEED_LIST_STORAGE_KEY, [], () => {});
 // setStorageItem(FEED_LIST_STORAGE_KEY, [
 //   {
 //     name: "Tech lab",
@@ -129,5 +129,18 @@ export const useFeedList = () => {
     );
   };
 
-  return { feedList, updateFeedList, addNewFeed, removeFeed, modifyFeed };
+  const setFeedListAndStorage = (data) => {
+    setStorageItem(FEED_LIST_STORAGE_KEY, data);
+    setFeedList(data);
+    updateFeedList();
+  };
+
+  return {
+    feedList,
+    updateFeedList,
+    addNewFeed,
+    removeFeed,
+    modifyFeed,
+    setFeedList: setFeedListAndStorage,
+  };
 };

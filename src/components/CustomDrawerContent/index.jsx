@@ -12,6 +12,7 @@ import {
 } from "./styles";
 import { TouchElement } from "components/TouchElement";
 import { NewOrEditFeedModal } from "components/NewOrEditFeedModal";
+import DraggableFlatList from "react-native-draggable-flatlist";
 
 export const AddNewFeedButton = ({ setModalVisible }) => (
   <ButtonAddNew onPress={() => setModalVisible(true)}>
@@ -34,6 +35,7 @@ export const CustomDrawerContent = (props) => {
     setModalVisible,
     removeFeed,
     modifyFeed,
+    setFeedList,
   } = props;
 
   const initializeFields = () => {
@@ -95,27 +97,39 @@ export const CustomDrawerContent = (props) => {
     }
   }, [isModalVisible]);
 
+  const renderItem = ({ index, drag, item: { name, url } }) => (
+    <ItemContainer key={`drawer-item-${index}`}>
+      <TouchElement
+        onPress={() => navigation.navigate(name)}
+        style={{ flexGrow: 1, flexShrink: 1 }}
+      >
+        <TextItemContainer>
+          <Text style={{ color: COMMON_FIRST_COLOR }} numberOfLines={1}>
+            {name}
+          </Text>
+        </TextItemContainer>
+      </TouchElement>
+      <TouchElement onPress={() => modifyFeedItem(index, name, url)}>
+        <Icon name="create" style={{ marginRight: 10 }} />
+      </TouchElement>
+      <TouchElement onPress={() => removeFeed(name)}>
+        <Icon name="delete" style={{ marginRight: 10 }} />
+      </TouchElement>
+      <TouchElement onLongPress={drag}>
+        <Icon name="reorder" style={{ marginRight: 10 }} />
+      </TouchElement>
+    </ItemContainer>
+  );
+
   return (
     <DrawerContentScrollView {...props}>
       <Title>My feed list</Title>
-      {feedList.map(({ name, url }, index) => (
-        <ItemContainer key={`drawer-item-${index}`}>
-          <TouchElement
-            onPress={() => navigation.navigate(name)}
-            style={{ flexGrow: 1 }}
-          >
-            <TextItemContainer>
-              <Text style={{ color: COMMON_FIRST_COLOR }}>{name}</Text>
-            </TextItemContainer>
-          </TouchElement>
-          <TouchElement onPress={() => modifyFeedItem(index, name, url)}>
-            <Icon name="create" style={{ marginRight: 10 }} />
-          </TouchElement>
-          <TouchElement onPress={() => removeFeed(name)}>
-            <Icon name="delete" style={{ marginRight: 10 }} />
-          </TouchElement>
-        </ItemContainer>
-      ))}
+      <DraggableFlatList
+        data={feedList}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => `draggable-item-${index}`}
+        onDragEnd={(e) => setFeedList(e.data)}
+      />
       <AddNewFeedButton setModalVisible={setModalVisible} />
       <Title>My saved news</Title>
       <ButtonSaved>
