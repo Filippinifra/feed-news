@@ -6,26 +6,6 @@ import {
   setStorageItem,
 } from "utils/storage";
 
-// setStorageItem(FEED_LIST_STORAGE_KEY, [], () => {});
-// setStorageItem(FEED_LIST_STORAGE_KEY, [
-//   {
-//     name: "Tech lab",
-//     url: "http://feeds.arstechnica.com/arstechnica/technology-lab",
-//   },
-//   {
-//     name: "Abc",
-//     url: "http://feeds.arstechnica.com/arstechnica/technology-lab",
-//   },
-//   {
-//     name: "Gfd",
-//     url: "https://feeds.feedburner.com/TechCrunch/",
-//   },
-//   {
-//     name: "Mit",
-//     url: "https://www.technologyreview.com/topnews.rss",
-//   },
-// ]);
-
 export const useFeedList = () => {
   const [feedList, setFeedList] = useState([]);
 
