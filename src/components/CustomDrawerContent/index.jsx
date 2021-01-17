@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Alert, Text } from "react-native";
-import { COMMON_FIRST_COLOR, THIRD_COLOR } from "constants/palette";
+import {
+  COMMON_FIRST_COLOR,
+  COMMON_SECOND_COLOR,
+  THIRD_COLOR,
+} from "constants/palette";
 import { DrawerContentScrollView } from "@react-navigation/drawer";
 import { Icon } from "react-native-elements";
 import {
@@ -97,8 +101,13 @@ export const CustomDrawerContent = (props) => {
     }
   }, [isModalVisible]);
 
-  const renderItem = ({ index, drag, item: { name, url } }) => (
-    <ItemContainer key={`drawer-item-${index}`}>
+  const renderItem = ({ index, drag, isActive, item: { name, url } }) => (
+    <ItemContainer
+      key={`drawer-item-${index}`}
+      style={{
+        backgroundColor: isActive ? COMMON_SECOND_COLOR : COMMON_FIRST_COLOR,
+      }}
+    >
       <TouchElement
         onPress={() => navigation.navigate(name)}
         style={{ flexGrow: 1, flexShrink: 1 }}
