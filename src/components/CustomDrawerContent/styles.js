@@ -34,6 +34,5 @@ export const TextItemContainer = styled.View`
 
 export const ItemContainer = styled.View`
   flex-direction: row;
-  flex: 1;
   align-items: center;
 `;
