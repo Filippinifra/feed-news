@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Alert, Text } from "react-native";
-import {
-  COMMON_FIRST_COLOR,
-  COMMON_SECOND_COLOR,
-  THIRD_COLOR,
-} from "constants/palette";
+import { COMMON_FIRST_COLOR, THIRD_COLOR } from "constants/palette";
 import { DrawerContentScrollView } from "@react-navigation/drawer";
 import { Icon } from "react-native-elements";
 import {
@@ -18,6 +14,7 @@ import { TouchElement } from "components/TouchElement";
 import { NewOrEditFeedModal } from "components/NewOrEditFeedModal";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import Animated from "react-native-reanimated";
+import { RaccomendedFeeds } from "components/RaccomendedFeeds";
 
 const {
   block,
@@ -210,6 +207,8 @@ export const CustomDrawerContent = (props) => {
       <ButtonSaved>
         <Icon name="bookmark" color={THIRD_COLOR}></Icon>
       </ButtonSaved>
+      <Title>Raccomended Feed</Title>
+      <RaccomendedFeeds feedList={feedList} addNewFeed={addNewFeed} />
       <NewOrEditFeedModal
         isVisible={isModalVisible}
         onConfirm={isModifying ? onEditFeedConfirm : onNewFeedConfirm}

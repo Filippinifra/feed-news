@@ -6,6 +6,8 @@ import {
   setStorageItem,
 } from "utils/storage";
 
+// setStorageItem(FEED_LIST_STORAGE_KEY, [], () => {});
+
 export const useFeedList = () => {
   const [feedList, setFeedList] = useState([]);
 
